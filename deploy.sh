@@ -1,0 +1,1 @@
+mvn deploy -pl fastbe-ext-fastc-shop-ext -DskipTests=true -DaltDeploymentRepository=snapshots::default::http://artifactory.jd.com/libs-snapshots-local

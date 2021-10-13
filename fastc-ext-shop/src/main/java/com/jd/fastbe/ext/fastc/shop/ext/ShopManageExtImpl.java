@@ -1,4 +1,4 @@
-package com.jd.fastbe.ext.fastc.shop.ext.ext;
+package com.jd.fastbe.ext.fastc.shop.ext;
 
 import com.jd.b2b.user.sdk.domain.PaginationResult;
 import com.jd.fastbe.framework.model.base.DomainParam;
@@ -18,6 +18,7 @@ import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.PurchaseRelationQu
 import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.RelationDetailDto;
 import com.yibin.b2b.user.core.query.sdk.service.UserRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.Map;
  * @Title:
  *
  */
-
+@Component
 public class ShopManageExtImpl implements ShopManagetExt {
 
     @Autowired

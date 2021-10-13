@@ -1,4 +1,4 @@
-package com.jd.fastbe.ext.fastc.shop.ext.ext;
+package com.jd.fastbe.ext.fastc.shop.ext;
 
 import com.jd.fastbe.framework.model.base.DomainResult;
 import com.jd.fastbe.tpl.common.components.isv.export.addr.ext.AddressQueryExt;

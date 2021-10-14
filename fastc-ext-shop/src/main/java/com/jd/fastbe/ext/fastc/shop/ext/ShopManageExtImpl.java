@@ -51,8 +51,8 @@ public class ShopManageExtImpl implements ShopManagetExt {
         VenderBasicVO vender = queryVender(venderId);
 
         if (shop != null && vender != null && status !=null ) {
-            venderShopVO.setShopId(shop.getId());
-            venderShopVO.setVenderId(shop.getVenderId());
+            venderShopVO.setShopId(shop.getId()+"");
+            venderShopVO.setVenderId(shop.getVenderId()+"");
             venderShopVO.setShopName(shop.getTitle());
             venderShopVO.setShopStatus(shop.getStatus());
             venderShopVO.setLogo(shop.getFullLogoUri());

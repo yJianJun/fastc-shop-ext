@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: fastc-shop-ext
+
+server:
+  port: 8081

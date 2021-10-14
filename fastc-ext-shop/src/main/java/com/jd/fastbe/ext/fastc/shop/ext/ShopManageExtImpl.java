@@ -4,8 +4,7 @@ import com.jd.b2b.user.sdk.domain.PaginationResult;
 import com.jd.fastbe.framework.model.base.DomainParam;
 import com.jd.fastbe.framework.model.base.DomainResult;
 import com.jd.fastbe.shop.ext.sdk.manage.ShopManagetExt;
-import com.jd.fastbe.shop.ext.sdk.sayhello.vo.VenderShopQueryVO;
-import com.jd.fastbe.shop.ext.sdk.sayhello.vo.VenderShopVO;
+import com.jd.fastbe.shop.ext.sdk.manage.vo.VenderShopVO;
 import com.jd.pop.vender.center.service.shop.ShopSafService;
 import com.jd.pop.vender.center.service.shop.dto.BasicShop;
 import com.jd.pop.vender.center.service.shop.dto.BasicShopResult;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
-import java.util.Map;
 
 /***
  * @Auther: yejianjun
@@ -55,9 +53,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
 //                    .getBean("shopSafService");
 //            log.info("得到调用端代理：{}", shopSafService);
             VenderShopVO venderShopVO = new VenderShopVO();
-             Map ext = paramData.getExt();
-            String pin = (String)ext.get("pin");
-            Integer status = queryRlation(paramData.getVenderId(),pin);
+            Integer status = queryRlation(paramData.getVenderId(),paramData.getOperator());
             venderShopVO.setCooperation(status);
 
             BasicShopResult shopResult = shopSafService.getBasicShopByVenderId(Long.parseLong(paramData.getVenderId()),null, 1);

@@ -3,7 +3,7 @@ package com.jd.fastbe.ext.fastc.shop.ext;
 import com.jd.fastbe.framework.model.base.DomainParam;
 import com.jd.fastbe.framework.model.base.DomainResult;
 import com.jd.fastbe.shop.ext.sdk.manage.GoodsCategoryQueryExt;
-import com.jd.fastbe.shop.ext.sdk.sayhello.vo.VenderGoodsCategoryVO;
+import com.jd.fastbe.shop.ext.sdk.manage.vo.VenderGoodsCategoryVO;
 import com.jd.pop.vender.center.service.shopCategory.ShopCategorySafService;
 import com.jd.pop.vender.center.service.shopCategory.dto.ShopCategory;
 import com.jd.pop.vender.center.service.shopCategory.dto.ShopCategoryResult;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /***

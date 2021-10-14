@@ -69,6 +69,12 @@
             <artifactId>yibin-b2b-user-query-sdk</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.jd.pap</groupId>
+            <artifactId>priceinfo-api-sdk</artifactId>
+            <version>1.0.3.GENERAL.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>

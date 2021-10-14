@@ -30,4 +30,9 @@
                   protocol="jsf" alias="popvendercenter" timeout="10000">
         <jsf:parameter key="signToken" value="123456" hide="true"/>
     </jsf:consumer>
+
+    <jsf:consumer id="priceInfoService" interface="com.jd.pap.priceinfo.sdk.service.PriceInfoService"
+                  protocol="jsf" alias="test" timeout="200" retries="1" serialization="hessian">
+        <jsf:parameter key="signToken" value="123456" hide="true"/>
+    </jsf:consumer>
 </beans>

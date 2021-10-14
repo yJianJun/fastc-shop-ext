@@ -44,6 +44,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
         map.put("venderId", vo.getVenderId());
         map.put("currentPage", vo.getCurrentPage() + "");
         map.put("pageSize", vo.getPageSize() + "");
+        //todo: 地理位置id
         String json = restTemplate.getForObject("http://spblenderlht-search.searchpaaslht.svc.tpaas.n.jd.local?" +
                 "key=ShopCategoryIDS,,{category};;" +
                 "vender_id,,{venderId}" +

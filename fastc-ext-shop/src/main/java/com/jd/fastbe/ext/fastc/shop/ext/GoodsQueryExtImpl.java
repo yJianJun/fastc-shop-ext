@@ -36,7 +36,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
     private PriceInfoService priceInfoService;
 
     @Override
-    public DomainResult<PageVO<VenderSkuVO>> getPage(DomainParam<VenderSkuQueryVO> param) throws Exception {
+    public DomainResult<PageVO<VenderSkuVO>> getPage(DomainParam<VenderSkuQueryVO> param) {
 
         VenderSkuQueryVO vo = param.getData();
         Map<String, String> map = new HashMap<>();
@@ -50,30 +50,36 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
                 "&page={currentPage}" + "" +
                 "&pagesize={pageSize}" +
                 "&expression_key=buid,,405&sort_type=sort_default&charset=utf8&client=1634023454001", String.class, map);
-        JSONObject jsonObject = new JSONObject(json);
-        JSONArray paragraph = jsonObject.getJSONArray("Paragraph");
-        JSONObject head = jsonObject.getJSONObject("Head");
-        JSONObject summary = head.getJSONObject("Summary");
-        String total = summary.getString("ResultCount");
+        PageVO<VenderSkuVO> pageVO = null;
+        List<VenderSkuVO> list = null;
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            JSONArray paragraph = jsonObject.getJSONArray("Paragraph");
+            JSONObject head = jsonObject.getJSONObject("Head");
+            JSONObject summary = head.getJSONObject("Summary");
+            String total = summary.getString("ResultCount");
 
-        PageVO<VenderSkuVO> pageVO = new PageVO<>();
-        pageVO.setCurrentPage(vo.getCurrentPage());
-        pageVO.setPageSize(vo.getPageSize());
-        pageVO.setTotal(Long.valueOf(total));
-        List<VenderSkuVO> list = new ArrayList<>();
-        for (int i = 0; i < paragraph.length(); i++) {
-            JSONObject object = paragraph.getJSONObject(i);
-            JSONObject content = object.getJSONObject("Content");
-            VenderSkuVO skuVO = new VenderSkuVO();
-            skuVO.setSkuId(content.getString("wareid"));
-            skuVO.setSkuName(content.getString("warename"));
-            skuVO.setSkuImageUrl(content.getString("imageurl"));
-            skuVO.setSkuStock(content.getInt("wareInStock") == 1);
-            list.add(skuVO);
+            pageVO = new PageVO<>();
+            pageVO.setCurrentPage(vo.getCurrentPage());
+            pageVO.setPageSize(vo.getPageSize());
+            pageVO.setTotal(Long.valueOf(total));
+            list = new ArrayList<>();
+            for (int i = 0; i < paragraph.length(); i++) {
+                JSONObject object = paragraph.getJSONObject(i);
+                JSONObject content = object.getJSONObject("Content");
+                VenderSkuVO skuVO = new VenderSkuVO();
+                skuVO.setSkuId(content.getString("wareid"));
+                skuVO.setSkuName(content.getString("warename"));
+                skuVO.setSkuImageUrl(content.getString("imageurl"));
+                skuVO.setSkuStock(content.getInt("wareInStock") == 1);
+                list.add(skuVO);
+            }
+        } catch (JSONException e) {
+            return DomainResult.fail("-1005", "HTTP调用错误");
         }
+
         HashSet<Integer> hashSet = new HashSet<>();
         hashSet.add(1);
-
         PriceInfoRequest priceInfoRequest = new PriceInfoRequest();
         priceInfoRequest.setPriceInfos(hashSet);
         priceInfoRequest.setSkuIds(list.stream().map(VenderSkuVO::getSkuId).collect(Collectors.toSet()));
@@ -82,14 +88,17 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
         //todo: 需要藏经阁备案
         priceInfoRequest.setSource("jshop-act");
         PriceInfoResponse realPriceInfo = priceInfoService.getRealPriceInfo(priceInfoRequest);
-        Map<String, PriceResult> priceMap = realPriceInfo.getPriceMap();
+        if (realPriceInfo.isSuccess()){
+            Map<String, PriceResult> priceMap = realPriceInfo.getPriceMap();
 
-        for (VenderSkuVO skuVO : list) {
-            PriceResult priceResult = priceMap.get(skuVO.getSkuId());
-            String jdPrice = priceResult.getJdPrice();
-            skuVO.setSkuPrice(jdPrice);
+            for (VenderSkuVO skuVO : list) {
+                PriceResult priceResult = priceMap.get(skuVO.getSkuId());
+                String jdPrice = priceResult.getJdPrice();
+                skuVO.setSkuPrice(jdPrice);
+            }
+            pageVO.setData(list);
+            return DomainResult.success(pageVO);
         }
-        pageVO.setData(list);
-        return DomainResult.success(pageVO);
+        return DomainResult.fail("-1003", "RPC调用错误");
     }
 }

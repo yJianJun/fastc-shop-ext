@@ -42,61 +42,55 @@ public class ShopManageExtImpl implements ShopManagetExt {
 
     @Override
     public DomainResult<VenderShopVO> detail(DomainParam paramData) {
-        try {
 
+        VenderShopVO venderShopVO = new VenderShopVO();
+        String venderId = paramData.getVenderId();
 
-//加载配置文件
-//            ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
-//                    "/jsf-consumer.xml");
-//
-//            shopSafService = (ShopSafService) appContext
-//                    .getBean("shopSafService");
-//            log.info("得到调用端代理：{}", shopSafService);
-            VenderShopVO venderShopVO = new VenderShopVO();
-            Integer status = queryRlation(paramData.getVenderId(),paramData.getOperator());
-            venderShopVO.setCooperation(status);
+        Integer status = queryRlation(venderId, paramData.getOperator());
+        BasicShop shop = queryShop(venderId);
+        VenderBasicVO vender = queryVender(venderId);
 
-            BasicShopResult shopResult = shopSafService.getBasicShopByVenderId(Long.parseLong(paramData.getVenderId()),null, 1);
-            VenderBasicResult venderResult = venderBasicSafService.getBasicVenderInfoByVenderId(Long.parseLong(paramData.getVenderId()), null, 1);
-            if (shopResult.isSuccess() && venderResult.isSuccess()) {
-                BasicShop shop = shopResult.getBasicShop();
-                VenderBasicVO vender = venderResult.getVenderBasicVO();
-                if (shop != null && vender!=null) {
-                    venderShopVO.setShopId(shop.getId());
-                    venderShopVO.setVenderId(shop.getVenderId());
-                    venderShopVO.setShopName(shop.getTitle());
-                    venderShopVO.setStatus(shop.getStatus());
-                    venderShopVO.setFullLogoUri(shop.getFullLogoUri());
-                    venderShopVO.setBrief(shop.getBrief());
-                    venderShopVO.setCsNo(shop.getCsNo());
-                    venderShopVO.setShopType(shop.getShopType());
-                    venderShopVO.setCompany(vender.getCompanyName());
-
-                    return DomainResult.success(venderShopVO);
-                } else {
-                    System.out.println("该商家店铺信息不存在");
-                    return null;
-                }
-            } else {
-                System.out.println("服务端发生异常，具体错误日志为：" + shopResult.getErrorMsg());
-                return null;
-            }
-        } catch (Exception e) {
-            System.out.println("网络异常,做好降级准备");
-            return null;
+        if (shop != null && vender != null && status !=null ) {
+            venderShopVO.setShopId(shop.getId());
+            venderShopVO.setVenderId(shop.getVenderId());
+            venderShopVO.setShopName(shop.getTitle());
+            venderShopVO.setShopStatus(shop.getStatus());
+            venderShopVO.setLogo(shop.getFullLogoUri());
+            venderShopVO.setContact(shop.getCsNo());
+            venderShopVO.setCompanyName(vender.getCompanyName());
+            venderShopVO.setCooperationStatus(status);
+            return DomainResult.success(venderShopVO);
+        } else {
+            return DomainResult.fail("-1003", "RPC调用错误");
         }
     }
 
-    private Integer queryRlation(String venderId,String pin) {
+    private VenderBasicVO queryVender(String venderId) {
+        VenderBasicResult venderResult = venderBasicSafService.getBasicVenderInfoByVenderId(Long.parseLong(venderId), null, 1);
+        if (venderResult.isSuccess()) {
+            return venderResult.getVenderBasicVO();
+        }
+        return null;
+    }
+
+    private BasicShop queryShop(String venderId) {
+        BasicShopResult shopResult = shopSafService.getBasicShopByVenderId(Long.parseLong(venderId), null, 1);
+        if (shopResult.isSuccess()) {
+            return shopResult.getBasicShop();
+        }
+        return null;
+    }
+
+    private Integer queryRlation(String venderId, String pin) {
 
         PurchaseRelationQueryDto purchaseRelationDto = new PurchaseRelationQueryDto();
         purchaseRelationDto.setTenant("buId:406");
         purchaseRelationDto.setVenderId(Long.parseLong(venderId));
         purchaseRelationDto.setBPin(pin);
         PaginationResult<RelationDetailDto> relationPage = userRelationService.queryUserRelationPage(purchaseRelationDto, new UserCbiPageQuery());
-        if (relationPage.isSuccess()){
+        if (relationPage.isSuccess()) {
             List<RelationDetailDto> dataList = relationPage.getDataList();
-            if (!CollectionUtils.isEmpty(dataList)){
+            if (!CollectionUtils.isEmpty(dataList)) {
                 PurchaseRelationDto relationCbiDto = dataList.get(0).getPurchaseRelationCbiDto();
                 return relationCbiDto.getAuthStatus();
             }

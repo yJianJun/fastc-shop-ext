@@ -17,6 +17,18 @@
             <artifactId>fastc-ext-shop</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+
+        <!-- JMock refer: http://test.jmock.jd.com -->
+        <dependency>
+            <groupId>com.jd.m.mocker</groupId>
+            <artifactId>mocker-client</artifactId>
+            <version>1.0.2.3-beta.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

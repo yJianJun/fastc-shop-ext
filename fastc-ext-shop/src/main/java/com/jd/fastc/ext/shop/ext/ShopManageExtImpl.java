@@ -1,10 +1,10 @@
-package com.jd.fastbe.ext.fastc.shop.ext;
+package com.jd.fastc.ext.shop.ext;
 
 import com.jd.b2b.user.sdk.domain.PaginationResult;
 import com.jd.fastbe.framework.model.base.DomainParam;
 import com.jd.fastbe.framework.model.base.DomainResult;
-import com.jd.fastbe.shop.ext.sdk.manage.ShopManagetExt;
-import com.jd.fastbe.shop.ext.sdk.manage.vo.VenderShopVO;
+import com.jd.fastc.shop.ext.sdk.manage.ShopManagetExt;
+import com.jd.fastc.shop.ext.sdk.manage.vo.VenderShopVO;
 import com.jd.pop.vender.center.service.shop.ShopSafService;
 import com.jd.pop.vender.center.service.shop.dto.BasicShop;
 import com.jd.pop.vender.center.service.shop.dto.BasicShopResult;

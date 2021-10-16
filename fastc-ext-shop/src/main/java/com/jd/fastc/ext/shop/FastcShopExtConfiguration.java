@@ -1,4 +1,4 @@
-package com.jd.fastbe.ext.fastc.shop;
+package com.jd.fastc.ext.shop;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

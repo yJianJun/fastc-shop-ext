@@ -1,4 +1,4 @@
-package com.jd.fastbe.ext.shop.bootstrap;
+package com.jd.fastc.ext.shop.bootstrap;
 
 import com.jd.fastbe.tpl.common.components.isv.export.addr.ext.AddressQueryExt;
 import com.jd.fastbe.tpl.common.components.isv.export.addr.request.GetAddressRequest;

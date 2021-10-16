@@ -1,11 +1,11 @@
-package com.jd.fastbe.ext.fastc.shop.ext;
+package com.jd.fastc.ext.shop.ext;
 
 import com.jd.fastbe.framework.model.base.DomainParam;
 import com.jd.fastbe.framework.model.base.DomainResult;
 import com.jd.fastbe.framework.model.base.PageVO;
-import com.jd.fastbe.shop.ext.sdk.manage.GoodsQueryExt;
-import com.jd.fastbe.shop.ext.sdk.manage.vo.VenderSkuQueryVO;
-import com.jd.fastbe.shop.ext.sdk.manage.vo.VenderSkuVO;
+import com.jd.fastc.shop.ext.sdk.manage.GoodsQueryExt;
+import com.jd.fastc.shop.ext.sdk.manage.vo.VenderSkuQueryVO;
+import com.jd.fastc.shop.ext.sdk.manage.vo.VenderSkuVO;
 import com.jd.pap.priceinfo.sdk.domain.request.PriceInfoRequest;
 import com.jd.pap.priceinfo.sdk.domain.response.PriceInfoResponse;
 import com.jd.pap.priceinfo.sdk.domain.response.PriceResult;

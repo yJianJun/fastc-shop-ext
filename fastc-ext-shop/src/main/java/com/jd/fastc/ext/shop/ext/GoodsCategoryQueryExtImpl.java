@@ -1,9 +1,9 @@
-package com.jd.fastbe.ext.fastc.shop.ext;
+package com.jd.fastc.ext.shop.ext;
 
 import com.jd.fastbe.framework.model.base.DomainParam;
 import com.jd.fastbe.framework.model.base.DomainResult;
-import com.jd.fastbe.shop.ext.sdk.manage.GoodsCategoryQueryExt;
-import com.jd.fastbe.shop.ext.sdk.manage.vo.VenderGoodsCategoryVO;
+import com.jd.fastc.shop.ext.sdk.manage.GoodsCategoryQueryExt;
+import com.jd.fastc.shop.ext.sdk.manage.vo.VenderGoodsCategoryVO;
 import com.jd.pop.vender.center.service.shopCategory.ShopCategorySafService;
 import com.jd.pop.vender.center.service.shopCategory.dto.ShopCategory;
 import com.jd.pop.vender.center.service.shopCategory.dto.ShopCategoryResult;

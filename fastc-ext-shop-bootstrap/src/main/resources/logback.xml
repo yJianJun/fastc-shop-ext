@@ -10,7 +10,7 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>D:project/logs/fastc/fastc-shop.log</File>
+        <File>D:\project\logs\fastc\fastc-shop.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 按照上面配置的FILE_PATH路径来保存日志 -->
             <fileNamePattern>D:\project\logs\fastc\fastc-shop.%d{yyyy-MM-dd}.%i.log</fileNamePattern>

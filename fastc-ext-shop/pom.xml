@@ -87,6 +87,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.jd.fastbe</groupId>
+            <artifactId>fastc-biz-shop-manage</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

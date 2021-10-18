@@ -5,6 +5,7 @@ import com.jd.fastbe.framework.model.base.DomainParam;
 import com.jd.fastbe.framework.model.base.DomainResult;
 import com.jd.fastc.shop.ext.sdk.manage.ShopManagetExt;
 import com.jd.fastc.shop.ext.sdk.manage.vo.VenderShopVO;
+import com.jd.m.mocker.client.ordinary.method.aop.JMock;
 import com.jd.pop.vender.center.service.shop.ShopSafService;
 import com.jd.pop.vender.center.service.shop.dto.BasicShop;
 import com.jd.pop.vender.center.service.shop.dto.BasicShopResult;
@@ -66,6 +67,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
         }
     }
 
+    @JMock
     private VenderBasicVO queryVender(String venderId) {
         VenderBasicResult venderResult = venderBasicSafService.getBasicVenderInfoByVenderId(Long.parseLong(venderId), null, 1);
         if (venderResult.isSuccess()) {
@@ -74,6 +76,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
         return null;
     }
 
+    @JMock
     private BasicShop queryShop(String venderId) {
         BasicShopResult shopResult = shopSafService.getBasicShopByVenderId(Long.parseLong(venderId), null, 1);
         if (shopResult.isSuccess()) {
@@ -82,6 +85,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
         return null;
     }
 
+    @JMock
     private Integer queryRlation(String venderId, String pin) {
 
         PurchaseRelationQueryDto purchaseRelationDto = new PurchaseRelationQueryDto();

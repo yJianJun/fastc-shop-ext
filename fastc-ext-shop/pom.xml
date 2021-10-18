@@ -89,10 +89,17 @@
         </dependency>
 
         <dependency>
+            <groupId>com.yibin.b2b</groupId>
+            <artifactId>yibin-b2b-user-query-sdk</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.jd.fastbe</groupId>
             <artifactId>fastc-biz-shop-manage</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+
     </dependencies>
 
     <build>

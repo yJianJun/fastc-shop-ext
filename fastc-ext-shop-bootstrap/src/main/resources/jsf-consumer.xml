@@ -38,7 +38,7 @@
 
     <!-- B用户 地址查询 -->
     <jsf:consumer id="deliveryInfoQueryService" interface="com.yibin.b2b.user.core.query.sdk.service.DeliveryInfoQueryService"
-                  alias="test" protocol="jsf" serialization="hessian"
+                  alias="popvendercenter" protocol="jsf" serialization="hessian"
                   timeout="10000">
         <jsf:parameter key="signToken" value="123456" hide="true"/>
     </jsf:consumer>

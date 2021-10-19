@@ -68,6 +68,12 @@
             <groupId>com.yibin.b2b</groupId>
             <artifactId>yibin-b2b-user-query-sdk</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-collections4</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

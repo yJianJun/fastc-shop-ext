@@ -4,6 +4,7 @@ import com.jd.fastbe.framework.model.base.DomainParam;
 import com.jd.fastbe.framework.model.base.DomainResult;
 import com.jd.fastc.shop.ext.sdk.manage.GoodsCategoryQueryExt;
 import com.jd.fastc.shop.ext.sdk.manage.vo.VenderGoodsCategoryVO;
+import com.jd.m.mocker.client.ordinary.method.aop.JMock;
 import com.jd.pop.vender.center.service.shopCategory.ShopCategorySafService;
 import com.jd.pop.vender.center.service.shopCategory.dto.ShopCategory;
 import com.jd.pop.vender.center.service.shopCategory.dto.ShopCategoryResult;
@@ -28,6 +29,7 @@ public class GoodsCategoryQueryExtImpl implements GoodsCategoryQueryExt {
     private ShopCategorySafService shopCategorySafService;
 
     @Override
+    @JMock
     public DomainResult<List<VenderGoodsCategoryVO>> getList(DomainParam param) {
 
         ShopCategoryVO vo = new ShopCategoryVO();

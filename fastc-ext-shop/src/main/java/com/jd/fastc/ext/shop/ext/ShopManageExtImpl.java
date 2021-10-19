@@ -42,6 +42,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
     private UserRelationService userRelationService;
 
     @Override
+    @JMock
     public DomainResult<VenderShopVO> detail(DomainParam paramData) {
 
         VenderShopVO venderShopVO = new VenderShopVO();

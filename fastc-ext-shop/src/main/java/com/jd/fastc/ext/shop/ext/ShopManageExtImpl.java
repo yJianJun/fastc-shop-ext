@@ -3,6 +3,10 @@ package com.jd.fastc.ext.shop.ext;
 import com.jd.b2b.user.sdk.domain.PaginationResult;
 import com.jd.fastbe.framework.model.base.DomainParam;
 import com.jd.fastbe.framework.model.base.DomainResult;
+import com.jd.fastc.biz.shop.manage.common.RestultException;
+import com.jd.fastc.biz.shop.manage.enums.ResultCode;
+import com.jd.fastc.ext.shop.enums.ShopStatus;
+import com.jd.fastc.ext.shop.utils.RpcResultUtils;
 import com.jd.fastc.shop.ext.sdk.manage.ShopManagetExt;
 import com.jd.fastc.shop.ext.sdk.manage.vo.VenderShopVO;
 import com.jd.m.mocker.client.ordinary.method.aop.JMock;
@@ -12,15 +16,14 @@ import com.jd.pop.vender.center.service.shop.dto.BasicShopResult;
 import com.jd.pop.vender.center.service.vbinfo.VenderBasicSafService;
 import com.jd.pop.vender.center.service.vbinfo.dto.VenderBasicResult;
 import com.jd.pop.vender.center.service.vbinfo.dto.VenderBasicVO;
-import com.yibin.b2b.user.core.query.sdk.domain.UserCbiPageQuery;
 import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.PurchaseRelationDto;
 import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.PurchaseRelationQueryDto;
 import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.RelationDetailDto;
 import com.yibin.b2b.user.core.query.sdk.service.UserRelationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /***
@@ -32,13 +35,13 @@ import java.util.List;
 @Component
 public class ShopManageExtImpl implements ShopManagetExt {
 
-    @Autowired
+    @Resource
     private ShopSafService shopSafService;
 
-    @Autowired
+    @Resource
     private VenderBasicSafService venderBasicSafService;
 
-    @Autowired
+    @Resource
     private UserRelationService userRelationService;
 
     @Override
@@ -52,20 +55,19 @@ public class ShopManageExtImpl implements ShopManagetExt {
         BasicShop shop = queryShop(venderId);
         VenderBasicVO vender = queryVender(venderId);
 
-        if (shop != null && vender != null && status !=null ) {
-            venderShopVO.setShopId(shop.getId()+"");
-            venderShopVO.setVenderId(shop.getVenderId()+"");
+        if (shop != null && vender != null && status != null) {
+            venderShopVO.setShopId(shop.getId() + "");
+            venderShopVO.setVenderId(shop.getVenderId() + "");
             venderShopVO.setShopName(shop.getTitle());
             Integer shopStatus = shop.getStatus();
-            venderShopVO.setShopStatus(shopStatus ==0?1:(shopStatus==1?2:3));
+            venderShopVO.setShopStatus(shopStatus == 0 ? ShopStatus.Disable.getValue() : (shopStatus == 1 ? ShopStatus.Enable.getValue() : ShopStatus.Await.getValue()));
             venderShopVO.setLogo(shop.getFullLogoUri());
             venderShopVO.setContact(shop.getCsNo());
             venderShopVO.setCompanyName(vender.getCompanyName());
             venderShopVO.setCooperationStatus(status);
             return DomainResult.success(venderShopVO);
-        } else {
-            return DomainResult.fail("-1003", "RPC调用错误");
         }
+        throw new RestultException(ResultCode.RPC_ERROR);
     }
 
     @JMock
@@ -74,7 +76,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
         if (venderResult.isSuccess()) {
             return venderResult.getVenderBasicVO();
         }
-        return null;
+        throw new RestultException(ResultCode.RPC_ERROR);
     }
 
     @JMock
@@ -83,7 +85,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
         if (shopResult.isSuccess()) {
             return shopResult.getBasicShop();
         }
-        return null;
+        throw new RestultException(ResultCode.RPC_ERROR);
     }
 
     @JMock
@@ -93,15 +95,18 @@ public class ShopManageExtImpl implements ShopManagetExt {
         purchaseRelationDto.setTenant("buId:406");
         purchaseRelationDto.setVenderId(Long.parseLong(venderId));
         purchaseRelationDto.setBPin(pin);
-        PaginationResult<RelationDetailDto> relationPage = userRelationService.queryUserRelationPage(purchaseRelationDto, new UserCbiPageQuery());
+        purchaseRelationDto.setPageNo(1);
+        purchaseRelationDto.setPageSize(1);
+
+        PaginationResult<RelationDetailDto> relationPage = userRelationService.queryUserRelationPage(purchaseRelationDto, RpcResultUtils.buildYiBinClient());
         if (relationPage.isSuccess()) {
             List<RelationDetailDto> dataList = relationPage.getDataList();
             if (!CollectionUtils.isEmpty(dataList)) {
                 PurchaseRelationDto relationCbiDto = dataList.get(0).getPurchaseRelationCbiDto();
                 return relationCbiDto.getAuthStatus();
             }
-            return null;
+            throw new RestultException(ResultCode.DATA_ERROR);
         }
-        return null;
+        throw new RestultException(ResultCode.RPC_ERROR);
     }
 }

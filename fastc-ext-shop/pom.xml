@@ -82,6 +82,18 @@
             <version>1.0.3.GENERAL.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.jd.b2b</groupId>
+            <artifactId>b2b-aurora-sdk</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jd.tp</groupId>
+            <artifactId>tp-common</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- JMock refer: http://test.jmock.jd.com -->
         <dependency>
             <groupId>com.jd.m.mocker</groupId>

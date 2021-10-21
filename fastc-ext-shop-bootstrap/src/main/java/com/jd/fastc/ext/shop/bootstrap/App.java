@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * @since 2021/7/15 16:33
  */
 @SpringBootApplication
-@ImportResource("jsf-consumer.xml")
+@ImportResource("classpath:jsf-consumer.xml")
 public class App implements CommandLineRunner {
 
     @Resource

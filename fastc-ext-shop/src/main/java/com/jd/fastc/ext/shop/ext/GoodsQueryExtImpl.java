@@ -4,35 +4,28 @@ import com.google.common.collect.Lists;
 import com.jd.b2b.user.sdk.domain.PaginationResult;
 import com.jd.b2b.user.sdk.enums.DeliveryBizType;
 import com.jd.b2b.user.sdk.enums.DeliveryTypeEnum;
-import com.jd.fastbe.framework.client.exception.RpcException;
 import com.jd.fastbe.framework.model.base.DomainParam;
 import com.jd.fastbe.framework.model.base.DomainResult;
 import com.jd.fastbe.framework.model.base.PageVO;
 import com.jd.fastc.biz.shop.manage.common.RestultException;
 import com.jd.fastc.biz.shop.manage.enums.ResultCode;
 import com.jd.fastc.ext.shop.handler.AddressConverter;
-import com.jd.fastc.ext.shop.utils.RpcResultUtils;
+import com.jd.fastc.ext.shop.rpc.GoodsQueryRpc;
 import com.jd.fastc.ext.shop.vo.AddressVO;
 import com.jd.fastc.shop.ext.sdk.manage.GoodsQueryExt;
 import com.jd.fastc.shop.ext.sdk.manage.vo.VenderSkuQueryVO;
 import com.jd.fastc.shop.ext.sdk.manage.vo.VenderSkuVO;
-import com.jd.m.mocker.client.ordinary.method.aop.JMock;
 import com.jd.pap.priceinfo.sdk.domain.request.PriceInfoRequest;
 import com.jd.pap.priceinfo.sdk.domain.response.PriceInfoResponse;
 import com.jd.pap.priceinfo.sdk.domain.response.PriceResult;
-import com.jd.pap.priceinfo.sdk.service.PriceInfoService;
 import com.jd.tp.common.masterdata.BU;
 import com.jd.tp.common.masterdata.UA;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.DeliveryInfoDto;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.req.DeliveryQueryDto;
-import com.yibin.b2b.user.core.query.sdk.service.DeliveryInfoQueryService;
 import org.apache.commons.collections4.ListUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -48,16 +41,9 @@ import java.util.stream.Collectors;
 public class GoodsQueryExtImpl implements GoodsQueryExt {
 
     @Resource
-    private RestTemplate restTemplate;
-
-    @Resource
-    private PriceInfoService priceInfoService;
-
-    @Resource
-    private DeliveryInfoQueryService deliveryInfoQueryService;
+    private GoodsQueryRpc goodsQueryRpc;
 
     @Override
-    @JMock
     public DomainResult<PageVO<VenderSkuVO>> getPage(DomainParam<VenderSkuQueryVO> param) {
 
         VenderSkuQueryVO vo = param.getData();
@@ -67,14 +53,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
         map.put("currentPage", vo.getCurrentPage() + "");
         map.put("pageSize", vo.getPageSize() + "");
         map.put("address", queryAddress(param.getOperator()));
-        String json = restTemplate.getForObject("http://spblenderlht-search.searchpaaslht.svc.tpaas.n.jd.local?" +
-                        "key=ShopCategoryIDS,,{category};;" +
-                        "vender_id,,{venderId}" +
-                        "&page={currentPage}" +
-                        "&pagesize={pageSize}" +
-                        "&area_ids={address}" +
-                        "&expression_key=buid,,406&sort_type=sort_default&charset=utf8&client=1634023454002",
-                String.class, map);
+        String json = goodsQueryRpc.goodsSearch(map);
         PageVO<VenderSkuVO> pageVO = null;
         List<VenderSkuVO> list = null;
         try {
@@ -112,7 +91,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
         priceInfoRequest.setChannel(UA.PC.ordinal() + 1);
         //todo: 需要藏经阁备案 配置文件注入
         priceInfoRequest.setSource("jshop-act");
-        PriceInfoResponse realPriceInfo = priceInfoService.getRealPriceInfo(priceInfoRequest);
+        PriceInfoResponse realPriceInfo = goodsQueryRpc.getRealPriceInfo(priceInfoRequest);
         if (realPriceInfo.isSuccess()) {
             Map<String, PriceResult> priceMap = realPriceInfo.getPriceMap();
 
@@ -131,7 +110,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
     }
 
     public PaginationResult<DeliveryInfoDto> getAddressPageByBPin(DeliveryQueryDto queryDto) {
-        PaginationResult<DeliveryInfoDto> result = deliveryInfoQueryService.queryByPage(queryDto, RpcResultUtils.buildYiBinClient());
+        PaginationResult<DeliveryInfoDto> result = goodsQueryRpc.queryByPage(queryDto);
         if (result.isSuccess()) {
             return result;
         }

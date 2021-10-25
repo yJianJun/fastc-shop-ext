@@ -12,4 +12,6 @@ import com.jd.pop.vender.center.service.shopCategory.vo.ShopCategoryVO;
 public interface GoodsCategoryQueryRpc {
 
     ShopCategoryResult getAllShopCategory(ShopCategoryVO vo);
+
+    ShopCategoryResult getShopCategorysByVenderId(Long venderId);
 }

@@ -37,6 +37,7 @@ public class GoodsCategoryQueryExtImpl implements GoodsCategoryQueryExt {
         vo.setVenderId(Long.parseLong(param.getVenderId()));
         vo.setSource(NumberUtils.INTEGER_ONE);
         ShopCategoryResult categoryResult = categoryQueryRpc.getAllShopCategory(vo);
+        //ShopCategoryResult categoryResult = categoryQueryRpc.getShopCategorysByVenderId(vo.getVenderId());
         List<VenderGoodsCategoryVO> list = new ArrayList<>();
 
         if (categoryResult.isSuccess()){

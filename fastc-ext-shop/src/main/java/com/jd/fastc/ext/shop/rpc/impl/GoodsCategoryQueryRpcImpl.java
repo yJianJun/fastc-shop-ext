@@ -22,8 +22,12 @@ public class GoodsCategoryQueryRpcImpl implements GoodsCategoryQueryRpc {
     private ShopCategorySafService shopCategorySafService;
 
     @Override
-    @JMock
     public ShopCategoryResult getAllShopCategory(ShopCategoryVO vo) {
         return  shopCategorySafService.getAllShopCategory(vo);
+    }
+
+    @Override
+    public ShopCategoryResult getShopCategorysByVenderId(Long venderId){
+        return shopCategorySafService.getShopCategorysByVenderId(venderId);
     }
 }

@@ -1,6 +1,6 @@
-package com.jd.fastc.ext.shop.bootstrap.init;
+package com.jd.fastc.ext.shop.init;
 
-import com.jd.fastc.ext.shop.bootstrap.App;
+import com.jd.fastc.ext.shop.App;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 

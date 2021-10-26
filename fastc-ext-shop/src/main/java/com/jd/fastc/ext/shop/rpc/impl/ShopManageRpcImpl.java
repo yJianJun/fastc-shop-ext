@@ -3,6 +3,7 @@ package com.jd.fastc.ext.shop.rpc.impl;
 import com.jd.b2b.user.sdk.domain.PaginationResult;
 import com.jd.fastc.ext.shop.rpc.ShopManageRpc;
 import com.jd.fastc.ext.shop.utils.RpcResultUtils;
+import com.jd.m.mocker.client.ordinary.method.aop.JMock;
 import com.jd.pop.vender.center.service.shop.ShopSafService;
 import com.jd.pop.vender.center.service.shop.dto.BasicShopResult;
 import com.jd.pop.vender.center.service.vbinfo.VenderBasicSafService;
@@ -34,11 +35,13 @@ public class ShopManageRpcImpl implements ShopManageRpc {
 
 
     @Override
+    @JMock
     public BasicShopResult getBasicShopByVenderId(Long venderId) {
         return shopSafService.getBasicShopByVenderId(venderId, null, 1);
     }
 
     @Override
+    @JMock
     public VenderBasicResult getBasicVenderInfoByVenderId(Long venderId) {
         return venderBasicSafService.getBasicVenderInfoByVenderId(venderId, null, 1);
     }

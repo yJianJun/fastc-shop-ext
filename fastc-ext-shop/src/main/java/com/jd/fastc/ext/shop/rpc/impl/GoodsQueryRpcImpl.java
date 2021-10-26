@@ -3,6 +3,7 @@ package com.jd.fastc.ext.shop.rpc.impl;
 import com.jd.b2b.user.sdk.domain.PaginationResult;
 import com.jd.fastc.ext.shop.rpc.GoodsQueryRpc;
 import com.jd.fastc.ext.shop.utils.RpcResultUtils;
+import com.jd.m.mocker.client.ordinary.method.aop.JMock;
 import com.jd.pap.priceinfo.sdk.domain.request.PriceInfoRequest;
 import com.jd.pap.priceinfo.sdk.domain.response.PriceInfoResponse;
 import com.jd.pap.priceinfo.sdk.service.PriceInfoService;
@@ -40,6 +41,7 @@ public class GoodsQueryRpcImpl implements GoodsQueryRpc {
     }
 
     @Override
+    @JMock
     public String goodsSearch(Map<String, ?> uriVariables) {
         return restTemplate.getForObject("http://spblenderlht-search.searchpaaslht.svc.tpaas.n.jd.local?" +
                         "key=ShopCategoryIDS,,{category};;" +
@@ -52,6 +54,7 @@ public class GoodsQueryRpcImpl implements GoodsQueryRpc {
     }
 
     @Override
+    @JMock
     public PriceInfoResponse getRealPriceInfo(PriceInfoRequest priceInfoRequest) {
         return priceInfoService.getRealPriceInfo(priceInfoRequest);
     }

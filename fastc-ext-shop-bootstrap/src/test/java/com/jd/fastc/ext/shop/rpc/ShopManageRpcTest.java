@@ -22,13 +22,13 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class ShopManageRpcTest {
+public class ShopManageRpcTest {
 
     @Resource
     private UserRelationService userRelationService;
 
     @Test
-    void queryUserRelationPage() {
+    public void queryUserRelationPage() {
 
         //todo 查询合作关系 联调
         String venderId= "";

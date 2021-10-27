@@ -54,7 +54,6 @@ public class GoodsQueryRpcImpl implements GoodsQueryRpc {
     }
 
     @Override
-    @JMock
     public PriceInfoResponse getRealPriceInfo(PriceInfoRequest priceInfoRequest) {
         return priceInfoService.getRealPriceInfo(priceInfoRequest);
     }

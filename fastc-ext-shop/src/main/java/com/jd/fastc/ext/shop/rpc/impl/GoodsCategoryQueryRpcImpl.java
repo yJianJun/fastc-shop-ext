@@ -1,7 +1,6 @@
 package com.jd.fastc.ext.shop.rpc.impl;
 
 import com.jd.fastc.ext.shop.rpc.GoodsCategoryQueryRpc;
-import com.jd.m.mocker.client.ordinary.method.aop.JMock;
 import com.jd.pop.vender.center.service.shopCategory.ShopCategorySafService;
 import com.jd.pop.vender.center.service.shopCategory.dto.ShopCategoryResult;
 import com.jd.pop.vender.center.service.shopCategory.vo.ShopCategoryVO;
@@ -22,13 +21,11 @@ public class GoodsCategoryQueryRpcImpl implements GoodsCategoryQueryRpc {
     private ShopCategorySafService shopCategorySafService;
 
     @Override
-    @JMock
     public ShopCategoryResult getAllShopCategory(ShopCategoryVO vo) {
         return  shopCategorySafService.getAllShopCategory(vo);
     }
 
     @Override
-    @JMock
     public ShopCategoryResult getShopCategorysByVenderId(Long venderId){
         return shopCategorySafService.getShopCategorysByVenderId(venderId);
     }

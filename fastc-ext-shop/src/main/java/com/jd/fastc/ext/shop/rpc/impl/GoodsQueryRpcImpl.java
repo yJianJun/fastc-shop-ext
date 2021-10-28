@@ -1,5 +1,6 @@
 package com.jd.fastc.ext.shop.rpc.impl;
 
+import com.jd.b2b.user.sdk.domain.B2bUserResult;
 import com.jd.b2b.user.sdk.domain.PaginationResult;
 import com.jd.fastc.ext.shop.rpc.GoodsQueryRpc;
 import com.jd.fastc.ext.shop.utils.RpcResultUtils;
@@ -9,6 +10,7 @@ import com.jd.pap.priceinfo.sdk.domain.response.PriceInfoResponse;
 import com.jd.pap.priceinfo.sdk.service.PriceInfoService;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.DeliveryInfoDto;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.req.DeliveryQueryDto;
+import com.yibin.b2b.user.core.query.sdk.dto.userplat.req.GetDeliveryByIdReq;
 import com.yibin.b2b.user.core.query.sdk.service.DeliveryInfoQueryService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -38,6 +40,11 @@ public class GoodsQueryRpcImpl implements GoodsQueryRpc {
     @Override
     public PaginationResult<DeliveryInfoDto> queryByPage(DeliveryQueryDto queryDto) {
         return deliveryInfoQueryService.queryByPage(queryDto, RpcResultUtils.buildYiBinClient());
+    }
+
+    @Override
+    public B2bUserResult<DeliveryInfoDto> getByDeliveryId(GetDeliveryByIdReq queryDto) {
+        return deliveryInfoQueryService.getByDeliveryId(queryDto, RpcResultUtils.buildYiBinClient());
     }
 
     @Override

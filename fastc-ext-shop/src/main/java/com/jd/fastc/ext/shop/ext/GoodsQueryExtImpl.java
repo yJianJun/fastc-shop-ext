@@ -1,6 +1,7 @@
 package com.jd.fastc.ext.shop.ext;
 
 import com.google.common.collect.Lists;
+import com.jd.b2b.user.sdk.domain.B2bUserResult;
 import com.jd.b2b.user.sdk.domain.PaginationResult;
 import com.jd.b2b.user.sdk.enums.DeliveryBizType;
 import com.jd.b2b.user.sdk.enums.DeliveryTypeEnum;
@@ -22,6 +23,7 @@ import com.jd.tp.common.masterdata.BU;
 import com.jd.tp.common.masterdata.UA;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.DeliveryInfoDto;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.req.DeliveryQueryDto;
+import com.yibin.b2b.user.core.query.sdk.dto.userplat.req.GetDeliveryByIdReq;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -55,9 +57,9 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
         map.put("venderId", vo.getVenderId());
         map.put("currentPage", vo.getCurrentPage() + "");
         map.put("pageSize", vo.getPageSize() + "");
-        String address = queryAddress(param.getOperator());
-        if (StringUtils.isNotBlank(address)){
-            map.put("address",address);
+        String address = queryAddressById(vo.getAddressId());
+        if (StringUtils.isNotBlank(address)) {
+            map.put("address", address);
         }
         String json = search(map);
         PageVO<VenderSkuVO> pageVO = null;
@@ -159,6 +161,26 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
             return provinceId + "," + cityId + "," + districtId + "," + townId;
         }
         return null;
+    }
+
+    public String queryAddressById(Long addressId) {
+
+        GetDeliveryByIdReq req = new GetDeliveryByIdReq();
+        req.setDeliveryId(addressId);
+        B2bUserResult<DeliveryInfoDto> result = goodsQueryRpc.getByDeliveryId(req);
+        if (result.isSuccess()) {
+            DeliveryInfoDto data = result.getData();
+            if (Objects.nonNull(data)) {
+                AddressVO addressVO = AddressConverter.convert2AddressVO(data);
+                Integer provinceId = addressVO.getProvinceId();
+                Integer cityId = addressVO.getCityId();
+                Integer districtId = addressVO.getDistrictId();
+                Integer townId = addressVO.getTownId();
+                return provinceId + "," + cityId + "," + districtId + "," + townId;
+            }
+            return null;
+        }
+        throw new RestultException(ResultCode.RPC_ERROR);
     }
 
     private PageVO<AddressVO> convert2PageVO(PaginationResult<DeliveryInfoDto> source) {

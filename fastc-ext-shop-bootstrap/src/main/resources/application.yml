@@ -17,3 +17,12 @@ fastbe:
   login:
     color:
       exclude: /swagger**/**,/webjars/**,/v3/**,/doc.html
+
+
+jsf:
+  consumer:
+    b2b:
+      aurora:
+        alias: test:0.0.1
+  registry:
+    index: test.i.jsf.jd.local

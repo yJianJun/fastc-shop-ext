@@ -55,7 +55,10 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
         map.put("venderId", vo.getVenderId());
         map.put("currentPage", vo.getCurrentPage() + "");
         map.put("pageSize", vo.getPageSize() + "");
-        map.put("address", queryAddress(param.getOperator()));
+        String address = queryAddress(param.getOperator());
+        if (StringUtils.isNotBlank(address)){
+            map.put("address",address);
+        }
         String json = search(map);
         PageVO<VenderSkuVO> pageVO = null;
         List<VenderSkuVO> list = null;
@@ -155,7 +158,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
             Integer townId = addressVO.getTownId();
             return provinceId + "," + cityId + "," + districtId + "," + townId;
         }
-        throw new RestultException(ResultCode.RECORD_NOT_EXIST);
+        return null;
     }
 
     private PageVO<AddressVO> convert2PageVO(PaginationResult<DeliveryInfoDto> source) {

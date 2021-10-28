@@ -38,7 +38,7 @@ public class GoodsQueryRpcTest {
         deliveryQueryDto.setTenant("406");
         deliveryQueryDto.setBPin(operator);
         deliveryQueryDto.setBizType(DeliveryBizType.DELIVERY_GOODS.getCode());
-        deliveryQueryDto.setDeliveryType(DeliveryTypeEnum.DEF_ADDR.getCode());
+       // deliveryQueryDto.setDeliveryType(DeliveryTypeEnum.DEF_ADDR.getCode());
         deliveryQueryDto.setPageNo(1);
         deliveryQueryDto.setPageSize(1);
         PaginationResult<DeliveryInfoDto> result = deliveryInfoQueryService.queryByPage(deliveryQueryDto, RpcResultUtils.buildYiBinClient());

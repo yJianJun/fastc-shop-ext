@@ -37,19 +37,24 @@ public class GoodsQueryRpcImpl implements GoodsQueryRpc {
 
     @Override
     public PaginationResult<DeliveryInfoDto> queryByPage(DeliveryQueryDto queryDto) {
-        return deliveryInfoQueryService.queryByPage(queryDto,RpcResultUtils.buildYiBinClient());
+        return deliveryInfoQueryService.queryByPage(queryDto, RpcResultUtils.buildYiBinClient());
     }
 
     @Override
     @JMock
     public String goodsSearch(Map<String, ?> uriVariables) {
-        return restTemplate.getForObject("http://spblenderlht-search.searchpaaslht.svc.tpaas.n.jd.local?" +
-                        "key=ShopCategoryIDS,,{category};;" +
-                        "vender_id,,{venderId}" +
-                        "&page={currentPage}" +
-                        "&pagesize={pageSize}" +
-                        "&area_ids={address}" +
-                        "&expression_key=buid,,406&sort_type=sort_default&charset=utf8&client=1634023454002",
+
+        String url = "http://spblenderlht-search.searchpaaslht.svc.tpaas.n.jd.local?";
+        String query = "key=ShopCategoryIDS,,{category};;" +
+                "vender_id,,{venderId}" +
+                "&page={currentPage}" +
+                "&pagesize={pageSize}" +
+                "&expression_key=buid,,406&sort_type=sort_default&charset=utf8&client=1634023454002";
+
+        if (uriVariables.containsKey("address")) {
+            query = query + "&area_ids={address}";
+        }
+        return restTemplate.getForObject(url + query,
                 String.class, uriVariables);
     }
 

@@ -33,8 +33,9 @@ public class GoodsQueryRpcTest {
     public void queryByPage() {
 
         //todo 查询收货地址 联调
-        String operator = "";
+        String operator = "test1234";
         DeliveryQueryDto deliveryQueryDto = new DeliveryQueryDto();
+        deliveryQueryDto.setTenant("406");
         deliveryQueryDto.setBPin(operator);
         deliveryQueryDto.setBizType(DeliveryBizType.DELIVERY_GOODS.getCode());
         deliveryQueryDto.setDeliveryType(DeliveryTypeEnum.DEF_ADDR.getCode());

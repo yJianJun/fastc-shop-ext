@@ -87,7 +87,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
     private Integer queryRlation(String venderId, String pin) {
 
         PurchaseRelationQueryDto purchaseRelationDto = new PurchaseRelationQueryDto();
-        purchaseRelationDto.setTenant("buId:406");
+        purchaseRelationDto.setTenant("406");
         purchaseRelationDto.setVenderId(Long.parseLong(venderId));
         purchaseRelationDto.setBPin(pin);
         purchaseRelationDto.setPageNo(1);

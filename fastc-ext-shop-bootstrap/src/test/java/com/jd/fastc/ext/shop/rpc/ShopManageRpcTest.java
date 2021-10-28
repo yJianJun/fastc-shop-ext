@@ -36,7 +36,7 @@ public class ShopManageRpcTest {
         String venderId= "1";
         String pin = "test1234";
         PurchaseRelationQueryDto purchaseRelationDto = new PurchaseRelationQueryDto();
-        purchaseRelationDto.setTenant("buId:406");
+        purchaseRelationDto.setTenant("406");
         purchaseRelationDto.setVenderId(Long.parseLong(venderId));
         purchaseRelationDto.setBPin(pin);
         purchaseRelationDto.setPageNo(1);

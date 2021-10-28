@@ -22,7 +22,10 @@ import com.jd.tp.common.masterdata.BU;
 import com.jd.tp.common.masterdata.UA;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.DeliveryInfoDto;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.req.DeliveryQueryDto;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -53,7 +56,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
         map.put("currentPage", vo.getCurrentPage() + "");
         map.put("pageSize", vo.getPageSize() + "");
         map.put("address", queryAddress(param.getOperator()));
-        String json = goodsQueryRpc.goodsSearch(map);
+        String json = search(map);
         PageVO<VenderSkuVO> pageVO = null;
         List<VenderSkuVO> list = null;
         try {
@@ -79,7 +82,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
                 list.add(skuVO);
             }
         } catch (Exception e) {
-            throw new RestultException(ResultCode.RPC_ERROR,"HTTP调用错误");
+            throw new RestultException(ResultCode.RPC_ERROR, "HTTP调用错误");
         }
 
         HashSet<Integer> hashSet = new HashSet<>();
@@ -91,22 +94,38 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
         priceInfoRequest.setChannel(UA.PC.ordinal() + 1);
         //todo: 需要藏经阁备案 配置文件注入
         priceInfoRequest.setSource("jshop-act");
+        Map<String, PriceResult> priceMap = getRealPrice(priceInfoRequest, list, pageVO);
+        for (VenderSkuVO skuVO : list) {
+            PriceResult priceResult = priceMap.get(skuVO.getSkuId());
+            String jdPrice = "";
+            if (Objects.nonNull(priceResult)) {
+                jdPrice = priceResult.getJdPrice();
+            }
+            skuVO.setSkuPrice(jdPrice);
+        }
+        pageVO.setData(list);
+        return DomainResult.success(pageVO);
+    }
+
+
+    private Map<String, PriceResult> getRealPrice(PriceInfoRequest priceInfoRequest, List<VenderSkuVO> list, PageVO<VenderSkuVO> pageVO) {
         PriceInfoResponse realPriceInfo = goodsQueryRpc.getRealPriceInfo(priceInfoRequest);
         if (realPriceInfo.isSuccess()) {
             Map<String, PriceResult> priceMap = realPriceInfo.getPriceMap();
-
-            for (VenderSkuVO skuVO : list) {
-                PriceResult priceResult = priceMap.get(skuVO.getSkuId());
-                String jdPrice = "";
-                if (Objects.nonNull(priceResult)) {
-                    jdPrice = priceResult.getJdPrice();
-                }
-                skuVO.setSkuPrice(jdPrice);
+            if (MapUtils.isNotEmpty(priceMap)) {
+                return priceMap;
             }
-            pageVO.setData(list);
-            return DomainResult.success(pageVO);
+            throw new RestultException(ResultCode.DATA_ERROR);
         }
         throw new RestultException(ResultCode.RPC_ERROR);
+    }
+
+    private String search(Map<String, String> map) {
+        String json = goodsQueryRpc.goodsSearch(map);
+        if (StringUtils.isNotBlank(json)) {
+            return json;
+        }
+        throw new RestultException(ResultCode.DATA_ERROR);
     }
 
     public PaginationResult<DeliveryInfoDto> getAddressPageByBPin(DeliveryQueryDto queryDto) {
@@ -136,7 +155,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
             Integer townId = addressVO.getTownId();
             return provinceId + "," + cityId + "," + districtId + "," + townId;
         }
-       throw new RestultException(ResultCode.RECORD_NOT_EXIST);
+        throw new RestultException(ResultCode.RECORD_NOT_EXIST);
     }
 
     private PageVO<AddressVO> convert2PageVO(PaginationResult<DeliveryInfoDto> source) {

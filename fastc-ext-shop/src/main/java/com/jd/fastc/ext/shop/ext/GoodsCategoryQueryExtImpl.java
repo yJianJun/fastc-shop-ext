@@ -36,20 +36,24 @@ public class GoodsCategoryQueryExtImpl implements GoodsCategoryQueryExt {
         ShopCategoryVO vo = new ShopCategoryVO();
         vo.setVenderId(Long.parseLong(param.getVenderId()));
         vo.setSource(NumberUtils.INTEGER_ONE);
-        ShopCategoryResult categoryResult = categoryQueryRpc.getAllShopCategory(vo);
+        List<ShopCategory> resultList = getCategoryList(vo);
         //ShopCategoryResult categoryResult = categoryQueryRpc.getShopCategorysByVenderId(vo.getVenderId());
         List<VenderGoodsCategoryVO> list = new ArrayList<>();
+        for (ShopCategory category : resultList) {
+            VenderGoodsCategoryVO goodsCategoryVO = new VenderGoodsCategoryVO();
+            goodsCategoryVO.setId(category.getId());
+            goodsCategoryVO.setTitle(category.getTitle());
+            list.add(goodsCategoryVO);
+        }
+        return DomainResult.success(list);
+    }
 
-        if (categoryResult.isSuccess()){
+    private List<ShopCategory> getCategoryList(ShopCategoryVO vo) {
+        ShopCategoryResult categoryResult = categoryQueryRpc.getAllShopCategory(vo);
+        if (categoryResult.isSuccess()) {
             List<ShopCategory> resultList = categoryResult.getList();
-            if (!CollectionUtils.isEmpty(resultList)){
-                for (ShopCategory category : resultList) {
-                    VenderGoodsCategoryVO goodsCategoryVO = new VenderGoodsCategoryVO();
-                    goodsCategoryVO.setId(category.getId());
-                    goodsCategoryVO.setTitle(category.getTitle());
-                    list.add(goodsCategoryVO);
-                }
-                return DomainResult.success(list);
+            if (!CollectionUtils.isEmpty(resultList)) {
+                return resultList;
             }
             throw new RestultException(ResultCode.DATA_ERROR);
         }

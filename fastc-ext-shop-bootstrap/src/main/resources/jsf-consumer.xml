@@ -27,7 +27,7 @@
 
     <jsf:consumer id="userRelationService"
                   interface="com.yibin.b2b.user.core.query.sdk.service.UserRelationService"
-                  protocol="jsf" alias="popvendercenter" timeout="10000">
+                  protocol="jsf" alias="test:0.0.1" timeout="10000">
         <jsf:parameter key="signToken" value="123456" hide="true"/>
     </jsf:consumer>
 

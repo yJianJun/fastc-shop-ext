@@ -21,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 
 /***
  * @Auther: yejianjun
@@ -62,7 +63,11 @@ public class ShopManageExtImpl implements ShopManagetExt {
     private VenderBasicVO queryVender(String venderId) {
         VenderBasicResult venderResult = shopManageRpc.getBasicVenderInfoByVenderId(Long.parseLong(venderId));
         if (venderResult.isSuccess()) {
-            return venderResult.getVenderBasicVO();
+            VenderBasicVO basicVO = venderResult.getVenderBasicVO();
+            if (Objects.nonNull(basicVO)){
+                return basicVO;
+            }
+            throw new RestultException(ResultCode.DATA_ERROR);
         }
         throw new RestultException(ResultCode.RPC_ERROR);
     }
@@ -70,7 +75,11 @@ public class ShopManageExtImpl implements ShopManagetExt {
     private BasicShop queryShop(String venderId) {
         BasicShopResult shopResult = shopManageRpc.getBasicShopByVenderId(Long.parseLong(venderId));
         if (shopResult.isSuccess()) {
-            return shopResult.getBasicShop();
+            BasicShop basicShop = shopResult.getBasicShop();
+            if (Objects.nonNull(basicShop)){
+                return basicShop;
+            }
+            throw new RestultException(ResultCode.DATA_ERROR);
         }
         throw new RestultException(ResultCode.RPC_ERROR);
     }
@@ -88,8 +97,13 @@ public class ShopManageExtImpl implements ShopManagetExt {
         if (relationPage.isSuccess()) {
             List<RelationDetailDto> dataList = relationPage.getDataList();
             if (!CollectionUtils.isEmpty(dataList)) {
-                PurchaseRelationDto relationCbiDto = dataList.get(0).getPurchaseRelationCbiDto();
-                return relationCbiDto.getAuthStatus();
+                RelationDetailDto detailDto = dataList.get(0);
+                if (Objects.nonNull(detailDto)){
+                    PurchaseRelationDto relationCbiDto = detailDto.getPurchaseRelationCbiDto();
+                    if (Objects.nonNull(relationCbiDto)){
+                        return relationCbiDto.getAuthStatus();
+                    }
+                }
             }
             throw new RestultException(ResultCode.DATA_ERROR);
         }

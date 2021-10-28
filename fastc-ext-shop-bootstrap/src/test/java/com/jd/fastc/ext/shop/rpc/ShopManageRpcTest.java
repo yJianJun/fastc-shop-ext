@@ -2,9 +2,11 @@ package com.jd.fastc.ext.shop.rpc;
 
 import com.jd.b2b.user.sdk.domain.PaginationResult;
 import com.jd.fastc.ext.shop.utils.RpcResultUtils;
+import com.jd.jsf.gd.util.JsonUtils;
 import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.PurchaseRelationQueryDto;
 import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.RelationDetailDto;
 import com.yibin.b2b.user.core.query.sdk.service.UserRelationService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +24,7 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class ShopManageRpcTest {
 
     @Resource
@@ -30,9 +33,8 @@ public class ShopManageRpcTest {
     @Test
     public void queryUserRelationPage() {
 
-        //todo 查询合作关系 联调
-        String venderId= "";
-        String pin = "";
+        String venderId= "1";
+        String pin = "test1234";
         PurchaseRelationQueryDto purchaseRelationDto = new PurchaseRelationQueryDto();
         purchaseRelationDto.setTenant("buId:406");
         purchaseRelationDto.setVenderId(Long.parseLong(venderId));
@@ -40,6 +42,7 @@ public class ShopManageRpcTest {
         purchaseRelationDto.setPageNo(1);
         purchaseRelationDto.setPageSize(1);
         PaginationResult<RelationDetailDto> result = userRelationService.queryUserRelationPage(purchaseRelationDto, RpcResultUtils.buildYiBinClient());
+        log.debug("result:{}", JsonUtils.toJSONString(result));
         assertTrue(result.isSuccess());
     }
 }

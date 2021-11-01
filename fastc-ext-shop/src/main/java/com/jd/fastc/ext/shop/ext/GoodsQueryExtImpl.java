@@ -57,9 +57,12 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
         map.put("venderId", vo.getVenderId());
         map.put("currentPage", vo.getCurrentPage() + "");
         map.put("pageSize", vo.getPageSize() + "");
-        String address = queryAddressById(vo.getAddressId());
-        if (StringUtils.isNotBlank(address)) {
-            map.put("address", address);
+        Long addressId = vo.getAddressId();
+        if (Objects.nonNull(addressId)){
+            String address = queryAddressById(addressId);
+            if (StringUtils.isNotBlank(address)) {
+                map.put("address", address);
+            }
         }
         String json = search(map);
         PageVO<VenderSkuVO> pageVO = null;
@@ -145,6 +148,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
 
         DeliveryQueryDto deliveryQueryDto = new DeliveryQueryDto();
         deliveryQueryDto.setBPin(operator);
+        deliveryQueryDto.setTenant("406");
         deliveryQueryDto.setBizType(DeliveryBizType.DELIVERY_GOODS.getCode());
         deliveryQueryDto.setDeliveryType(DeliveryTypeEnum.DEF_ADDR.getCode());
         deliveryQueryDto.setPageNo(1);
@@ -166,6 +170,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
     public String queryAddressById(Long addressId) {
 
         GetDeliveryByIdReq req = new GetDeliveryByIdReq();
+        req.setTenant("406");
         req.setDeliveryId(addressId);
         B2bUserResult<DeliveryInfoDto> result = goodsQueryRpc.getByDeliveryId(req);
         if (result.isSuccess()) {

@@ -21,8 +21,15 @@ fastbe:
 
 jsf:
   consumer:
-    b2b:
-      aurora:
-        alias: test:0.0.1
+    alias:
+      b2b:
+        user: test:0.0.1 #用户 b中台
+      ps: popvendercenter # 商家 平生
+      price: test #价格
+    token:
+      b2b:
+        user: 123456
+      ps: 123456
+      price: 123456
   registry:
     index: test.i.jsf.jd.local

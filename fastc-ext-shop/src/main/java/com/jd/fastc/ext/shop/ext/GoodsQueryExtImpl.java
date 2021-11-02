@@ -148,7 +148,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
 
         DeliveryQueryDto deliveryQueryDto = new DeliveryQueryDto();
         deliveryQueryDto.setBPin(operator);
-        deliveryQueryDto.setTenant("406");
+        deliveryQueryDto.setTenant(BU.YB_B2B.getId()+"");
         deliveryQueryDto.setBizType(DeliveryBizType.DELIVERY_GOODS.getCode());
         deliveryQueryDto.setDeliveryType(DeliveryTypeEnum.DEF_ADDR.getCode());
         deliveryQueryDto.setPageNo(1);
@@ -170,7 +170,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
     public String queryAddressById(Long addressId) {
 
         GetDeliveryByIdReq req = new GetDeliveryByIdReq();
-        req.setTenant("406");
+        req.setTenant(BU.YB_B2B.getId()+"");
         req.setDeliveryId(addressId);
         B2bUserResult<DeliveryInfoDto> result = goodsQueryRpc.getByDeliveryId(req);
         if (result.isSuccess()) {

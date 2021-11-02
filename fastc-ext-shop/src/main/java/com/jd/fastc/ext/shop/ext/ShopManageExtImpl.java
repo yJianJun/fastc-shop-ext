@@ -13,6 +13,7 @@ import com.jd.pop.vender.center.service.shop.dto.BasicShop;
 import com.jd.pop.vender.center.service.shop.dto.BasicShopResult;
 import com.jd.pop.vender.center.service.vbinfo.dto.VenderBasicResult;
 import com.jd.pop.vender.center.service.vbinfo.dto.VenderBasicVO;
+import com.jd.tp.common.masterdata.BU;
 import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.PurchaseRelationDto;
 import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.PurchaseRelationQueryDto;
 import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.RelationDetailDto;
@@ -87,7 +88,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
     private Integer queryRlation(String venderId, String pin) {
 
         PurchaseRelationQueryDto purchaseRelationDto = new PurchaseRelationQueryDto();
-        purchaseRelationDto.setTenant("406");
+        purchaseRelationDto.setTenant(BU.YB_B2B.getId()+"");
         purchaseRelationDto.setVenderId(Long.parseLong(venderId));
         purchaseRelationDto.setBPin(pin);
         purchaseRelationDto.setPageNo(1);

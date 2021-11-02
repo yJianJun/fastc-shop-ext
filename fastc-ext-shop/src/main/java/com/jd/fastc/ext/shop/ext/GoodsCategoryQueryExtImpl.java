@@ -31,10 +31,10 @@ public class GoodsCategoryQueryExtImpl implements GoodsCategoryQueryExt {
     private GoodsCategoryQueryRpc categoryQueryRpc;
 
     @Override
-    public DomainResult<List<VenderGoodsCategoryVO>> getList(DomainParam param) {
+    public DomainResult<List<VenderGoodsCategoryVO>> getList(String venderId) {
 
         ShopCategoryVO vo = new ShopCategoryVO();
-        vo.setVenderId(Long.parseLong(param.getVenderId()));
+        vo.setVenderId(Long.parseLong(venderId));
         vo.setSource(NumberUtils.INTEGER_ONE);
         List<ShopCategory> resultList = getCategoryList(vo);
         //ShopCategoryResult categoryResult = categoryQueryRpc.getShopCategorysByVenderId(vo.getVenderId());

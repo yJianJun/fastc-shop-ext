@@ -37,12 +37,11 @@ public class ShopManageExtImpl implements ShopManagetExt {
     private ShopManageRpc shopManageRpc;
 
     @Override
-    public DomainResult<VenderShopVO> detail(DomainParam paramData) {
+    public DomainResult<VenderShopVO> detail(String venderId,String pin) {
 
         VenderShopVO venderShopVO = new VenderShopVO();
-        String venderId = paramData.getVenderId();
 
-        Integer status = queryRlation(venderId, paramData.getOperator());
+        Integer status = queryRlation(venderId,pin);
         BasicShop shop = queryShop(venderId);
         VenderBasicVO vender = queryVender(venderId);
 
@@ -58,7 +57,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
             venderShopVO.setCooperationStatus(status);
             return DomainResult.success(venderShopVO);
         }
-        throw new RestultException(ResultCode.RPC_ERROR);
+        throw new RestultException(ResultCode.DATA_ERROR);
     }
 
     private VenderBasicVO queryVender(String venderId) {

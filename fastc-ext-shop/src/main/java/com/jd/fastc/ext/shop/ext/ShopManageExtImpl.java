@@ -41,8 +41,11 @@ public class ShopManageExtImpl implements ShopManagetExt {
 
         VenderShopVO venderShopVO = new VenderShopVO();
 
+        // 查询合作关系状态
         Integer status = queryRlation(venderId,pin);
+        // 查询店铺基本信息
         BasicShop shop = queryShop(venderId);
+        //查询商家基本信息
         VenderBasicVO vender = queryVender(venderId);
 
         if (shop != null && vender != null && status != null) {

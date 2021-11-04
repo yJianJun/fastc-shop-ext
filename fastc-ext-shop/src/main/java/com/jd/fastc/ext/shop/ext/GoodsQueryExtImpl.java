@@ -52,19 +52,24 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
     public DomainResult<PageVO<VenderSkuVO>> getPage(DomainParam<VenderSkuQueryVO> param) {
 
         VenderSkuQueryVO vo = param.getData();
+        //组装 http调用请求参数
         Map<String, String> map = new HashMap<>();
         map.put("category", vo.getCategory());
         map.put("venderId", vo.getVenderId());
         map.put("currentPage", vo.getCurrentPage() + "");
         map.put("pageSize", vo.getPageSize() + "");
+        //如果传了地址id,就查询地址id对应的级联组合地址id："省id,市id,区县id,乡镇id"
         Long addressId = vo.getAddressId();
         if (Objects.nonNull(addressId)){
             String address = queryAddressById(addressId);
+            // 如果可以查到对应的级联组合地址id，就封装进http调用参数map中
             if (StringUtils.isNotBlank(address)) {
                 map.put("address", address);
             }
         }
+        //http调用搜索中台接口
         String json = search(map);
+        //对返回json解析，取出需要字段的值
         PageVO<VenderSkuVO> pageVO = null;
         List<VenderSkuVO> list = null;
         try {
@@ -93,6 +98,13 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
             throw new RestultException(ResultCode.RPC_ERROR, "HTTP调用错误");
         }
 
+        //为每个商品通过价格中台找到价格，并设值
+        setPriceForSku(list);
+        pageVO.setData(list);
+        return DomainResult.success(pageVO);
+    }
+
+    private void setPriceForSku(List<VenderSkuVO> list) {
         HashSet<Integer> hashSet = new HashSet<>();
         hashSet.add(1);
         PriceInfoRequest priceInfoRequest = new PriceInfoRequest();
@@ -102,7 +114,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
         priceInfoRequest.setChannel(UA.PC.ordinal() + 1);
         //todo: 需要藏经阁备案 配置文件注入
         priceInfoRequest.setSource("jshop-act");
-        Map<String, PriceResult> priceMap = getRealPrice(priceInfoRequest, list, pageVO);
+        Map<String, PriceResult> priceMap = getRealPrice(priceInfoRequest);
         for (VenderSkuVO skuVO : list) {
             PriceResult priceResult = priceMap.get(skuVO.getSkuId());
             String jdPrice = "";
@@ -111,12 +123,10 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
             }
             skuVO.setSkuPrice(jdPrice);
         }
-        pageVO.setData(list);
-        return DomainResult.success(pageVO);
     }
 
 
-    private Map<String, PriceResult> getRealPrice(PriceInfoRequest priceInfoRequest, List<VenderSkuVO> list, PageVO<VenderSkuVO> pageVO) {
+    private Map<String, PriceResult> getRealPrice(PriceInfoRequest priceInfoRequest) {
         PriceInfoResponse realPriceInfo = goodsQueryRpc.getRealPriceInfo(priceInfoRequest);
         if (realPriceInfo.isSuccess()) {
             Map<String, PriceResult> priceMap = realPriceInfo.getPriceMap();

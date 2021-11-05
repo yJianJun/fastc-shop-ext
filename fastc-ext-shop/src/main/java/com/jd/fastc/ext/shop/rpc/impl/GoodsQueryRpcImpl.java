@@ -52,11 +52,23 @@ public class GoodsQueryRpcImpl implements GoodsQueryRpc {
     public String goodsSearch(Map<String, ?> uriVariables) {
 
         String url = "http://spblenderlht-search.searchpaaslht.svc.tpaas.n.jd.local?";
-        String query = "key=ShopCategoryIDS,,{category};;" +
+        String queryWithCategory = "key=ShopCategoryIDS,,{category};;" +
                 "vender_id,,{venderId}" +
                 "&page={currentPage}" +
                 "&pagesize={pageSize}" +
                 "&expression_key=buid,,406&sort_type=sort_default&charset=utf8&client=1634023454002";
+
+        String queryNotWithCategory="key=vender_id,,{venderId}" +
+                "&page={currentPage}" +
+                "&pagesize={pageSize}" +
+                "&expression_key=buid,,406&sort_type=sort_default&charset=utf8&client=1634023454002";
+
+        String query;
+        if (uriVariables.containsKey("category")){
+            query = queryWithCategory;
+        }else {
+            query = queryNotWithCategory;
+        }
 
         if (uriVariables.containsKey("address")) {
             query = query + "&area_ids={address}";

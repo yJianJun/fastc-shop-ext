@@ -54,7 +54,10 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
         VenderSkuQueryVO vo = param.getData();
         //组装 http调用请求参数
         Map<String, String> map = new HashMap<>();
-        map.put("category", vo.getCategory());
+        String category = vo.getCategory();
+        if (StringUtils.isNotBlank(category)){
+            map.put("category", category);
+        }
         map.put("venderId", vo.getVenderId());
         map.put("currentPage", vo.getCurrentPage() + "");
         map.put("pageSize", vo.getPageSize() + "");

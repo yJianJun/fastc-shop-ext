@@ -32,7 +32,6 @@ public class GoodsQueryRpcTest {
     @Test
     public void queryByPage() {
 
-        //todo 查询收货地址 联调
         String operator = "test1234";
         DeliveryQueryDto deliveryQueryDto = new DeliveryQueryDto();
         deliveryQueryDto.setTenant("406");

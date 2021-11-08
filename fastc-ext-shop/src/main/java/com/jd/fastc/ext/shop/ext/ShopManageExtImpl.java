@@ -42,13 +42,15 @@ public class ShopManageExtImpl implements ShopManagetExt {
         VenderShopVO venderShopVO = new VenderShopVO();
 
         // 查询合作关系状态
-        Integer status = queryRlation(venderId,pin);
+        PurchaseRelationDto relationDto = queryRlation(venderId, pin);
+        Integer status = relationDto.getAuthStatus();
+        Long relId = relationDto.getRelId();
         // 查询店铺基本信息
         BasicShop shop = queryShop(venderId);
         //查询商家基本信息
         VenderBasicVO vender = queryVender(venderId);
 
-        if (shop != null && vender != null && status != null) {
+        if (Objects.nonNull(shop) && Objects.nonNull(vender) && Objects.nonNull(status) && Objects.nonNull(relId)) {
             venderShopVO.setShopId(shop.getId() + "");
             venderShopVO.setVenderId(shop.getVenderId() + "");
             venderShopVO.setShopName(shop.getTitle());
@@ -58,6 +60,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
             venderShopVO.setContact(shop.getCsNo());
             venderShopVO.setCompanyName(vender.getCompanyName());
             venderShopVO.setCooperationStatus(status);
+            venderShopVO.setRelId(relId);
             return DomainResult.success(venderShopVO);
         }
         throw new RestultException(ResultCode.DATA_ERROR);
@@ -87,7 +90,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
         throw new RestultException(ResultCode.RPC_ERROR);
     }
 
-    private Integer queryRlation(String venderId, String pin) {
+    private PurchaseRelationDto queryRlation(String venderId, String pin) {
 
         PurchaseRelationQueryDto purchaseRelationDto = new PurchaseRelationQueryDto();
         purchaseRelationDto.setTenant(BU.YB_B2B.getId()+"");
@@ -104,7 +107,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
                 if (Objects.nonNull(detailDto)){
                     PurchaseRelationDto relationCbiDto = detailDto.getPurchaseRelationCbiDto();
                     if (Objects.nonNull(relationCbiDto)){
-                        return relationCbiDto.getAuthStatus();
+                        return relationCbiDto;
                     }
                 }
             }

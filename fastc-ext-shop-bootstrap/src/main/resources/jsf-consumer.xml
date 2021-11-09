@@ -8,29 +8,33 @@
     <!-- 注册中心  11.50.59.166 i.jsf.jd.com  #测试index服务地址 -->
     <jsf:registry id="jsfRegistry" protocol="jsfRegistry" index="${jsf.registry.index}"/>
 
-    <!-- 服务调用者配置 直连使用 url="jsf://127.0.0.1:22000;jsf://127.0.0.1:22001" -->
+    <!--平生 -->
     <jsf:consumer id="shopSafService" interface="com.jd.pop.vender.center.service.shop.ShopSafService"
                   protocol="jsf" alias="${jsf.consumer.alias.ps}" timeout="10000" check="true">
         <jsf:parameter key="signToken" value="${jsf.consumer.token.ps}" hide="true"/>
     </jsf:consumer>
 
+    <!--平生 -->
     <jsf:consumer id="shopCategorySafService"
                   interface="com.jd.pop.vender.center.service.shopCategory.ShopCategorySafService"
                   protocol="jsf" alias="${jsf.consumer.alias.ps}" timeout="10000" check="true">
         <jsf:parameter key="signToken" value="${jsf.consumer.token.ps}" hide="true"/>
     </jsf:consumer>
 
+    <!--平生 -->
     <jsf:consumer id="venderBasicSafService" interface="com.jd.pop.vender.center.service.vbinfo.VenderBasicSafService"
                   protocol="jsf" alias="${jsf.consumer.alias.ps}" timeout="10000" check="true">
         <jsf:parameter key="signToken" value="${jsf.consumer.token.ps}" hide="true"/>
     </jsf:consumer>
 
+<!--    b用户-->
     <jsf:consumer id="userRelationService"
                   interface="com.yibin.b2b.user.core.query.sdk.service.UserRelationService"
                   protocol="jsf" alias="${jsf.consumer.alias.b2b.user}" timeout="10000">
-        <jsf:parameter key="signToken" value="${jsf.consumer.token.b2b.user}" hide="true"/>
+<!--        <jsf:parameter key="signToken" value="${jsf.consumer.token.b2b.user}" hide="true"/>-->
     </jsf:consumer>
 
+<!--    价格中台-->
     <jsf:consumer id="priceInfoService" interface="com.jd.pap.priceinfo.sdk.service.PriceInfoService"
                   protocol="jsf" alias="${jsf.consumer.alias.price}" timeout="200" retries="1" serialization="hessian">
         <jsf:parameter key="signToken" value="${jsf.consumer.token.price}" hide="true"/>
@@ -41,6 +45,6 @@
                   interface="com.yibin.b2b.user.core.query.sdk.service.DeliveryInfoQueryService"
                   alias="${jsf.consumer.alias.b2b.user}" protocol="jsf" serialization="hessian"
                   timeout="10000">
-        <jsf:parameter key="signToken" value="${jsf.consumer.token.b2b.user}" hide="true"/>
+<!--        <jsf:parameter key="signToken" value="${jsf.consumer.token.b2b.user}" hide="true"/>-->
     </jsf:consumer>
 </beans>

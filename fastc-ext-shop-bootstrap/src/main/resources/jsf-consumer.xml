@@ -37,7 +37,7 @@
 <!--    价格中台-->
     <jsf:consumer id="priceInfoService" interface="com.jd.pap.priceinfo.sdk.service.PriceInfoService"
                   protocol="jsf" alias="${jsf.consumer.alias.price}" timeout="200" retries="1" serialization="hessian">
-        <jsf:parameter key="signToken" value="${jsf.consumer.token.price}" hide="true"/>
+<!--        <jsf:parameter key="signToken" value="${jsf.consumer.token.price}" hide="true"/>-->
     </jsf:consumer>
 
     <!-- B用户 地址查询 -->

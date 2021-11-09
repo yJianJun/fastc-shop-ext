@@ -74,7 +74,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
         }
         //http调用搜索中台接口
         String json = search(map);
-        log.info("----------------搜索中台返回字符串:{}---------------",json);
+        log.debug("----------------搜索中台返回字符串:{}---------------",json);
         //对返回json解析，取出需要字段的值
         PageVO<VenderSkuVO> pageVO = null;
         List<VenderSkuVO> list = null;
@@ -101,6 +101,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
                 list.add(skuVO);
             }
         } catch (Exception e) {
+            log.error("商品搜索中台报错:{}",e.fillInStackTrace());
             throw new RestultException(ResultCode.RPC_ERROR, "HTTP调用错误");
         }
 

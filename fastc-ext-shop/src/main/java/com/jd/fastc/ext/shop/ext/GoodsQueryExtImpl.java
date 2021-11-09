@@ -24,6 +24,7 @@ import com.jd.tp.common.masterdata.UA;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.DeliveryInfoDto;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.req.DeliveryQueryDto;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.req.GetDeliveryByIdReq;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -43,6 +44,7 @@ import java.util.stream.Collectors;
  *
  */
 @Component
+@Slf4j
 public class GoodsQueryExtImpl implements GoodsQueryExt {
 
     @Resource
@@ -71,7 +73,9 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
             }
         }
         //http调用搜索中台接口
+        log.debug("搜索中台参数:{}",map);
         String json = search(map);
+        log.debug("搜索中台返回字符串:{}",json);
         //对返回json解析，取出需要字段的值
         PageVO<VenderSkuVO> pageVO = null;
         List<VenderSkuVO> list = null;

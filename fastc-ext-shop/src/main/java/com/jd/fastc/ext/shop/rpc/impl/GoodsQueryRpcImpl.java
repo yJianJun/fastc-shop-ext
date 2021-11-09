@@ -1,9 +1,11 @@
 package com.jd.fastc.ext.shop.rpc.impl;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jd.b2b.user.sdk.domain.B2bUserResult;
 import com.jd.b2b.user.sdk.domain.PaginationResult;
 import com.jd.fastc.ext.shop.rpc.GoodsQueryRpc;
 import com.jd.fastc.ext.shop.utils.RpcResultUtils;
+import com.jd.jsf.gd.util.JsonUtils;
 import com.jd.m.mocker.client.ordinary.method.aop.JMock;
 import com.jd.pap.priceinfo.sdk.domain.request.PriceInfoRequest;
 import com.jd.pap.priceinfo.sdk.domain.response.PriceInfoResponse;
@@ -12,6 +14,7 @@ import com.yibin.b2b.user.core.query.sdk.dto.userplat.DeliveryInfoDto;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.req.DeliveryQueryDto;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.req.GetDeliveryByIdReq;
 import com.yibin.b2b.user.core.query.sdk.service.DeliveryInfoQueryService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,6 +28,7 @@ import java.util.Map;
  *
  */
 @Service
+@Slf4j
 public class GoodsQueryRpcImpl implements GoodsQueryRpc {
 
     @Resource
@@ -51,6 +55,7 @@ public class GoodsQueryRpcImpl implements GoodsQueryRpc {
     @JMock
     public String goodsSearch(Map<String, ?> uriVariables) {
 
+        log.debug("--------------商品搜索开始,map:{}------------", JsonUtils.toJSONString(uriVariables));
         String url = "http://spblenderlht-search.searchpaaslht.svc.tpaas.n.jd.local?";
         String queryWithCategory = "key=ShopCategoryIDS,,{category};;" +
                 "vender_id,,{venderId}" +
@@ -73,6 +78,7 @@ public class GoodsQueryRpcImpl implements GoodsQueryRpc {
         if (uriVariables.containsKey("address")) {
             query = query + "&area_ids={address}";
         }
+        log.debug("-------------商品搜索调用,地址:{},参数:{}--------------",url,query);
         return restTemplate.getForObject(url + query,
                 String.class, uriVariables);
     }

@@ -55,7 +55,7 @@ public class GoodsQueryRpcImpl implements GoodsQueryRpc {
     @JMock
     public String goodsSearch(Map<String, ?> uriVariables) {
 
-        log.debug("--------------商品搜索开始,map:{}------------", JsonUtils.toJSONString(uriVariables));
+        log.info("--------------商品搜索开始,map:{}------------", JsonUtils.toJSONString(uriVariables));
         String url = "http://spblenderlht-search.searchpaaslht.svc.tpaas.n.jd.local?";
         String queryWithCategory = "key=ShopCategoryIDS,,{category};;" +
                 "vender_id,,{venderId}" +
@@ -78,7 +78,7 @@ public class GoodsQueryRpcImpl implements GoodsQueryRpc {
         if (uriVariables.containsKey("address")) {
             query = query + "&area_ids={address}";
         }
-        log.debug("-------------商品搜索调用,地址:{},参数:{}--------------",url,query);
+        log.info("-------------商品搜索调用,地址:{},参数:{}--------------",url,query);
         return restTemplate.getForObject(url + query,
                 String.class, uriVariables);
     }

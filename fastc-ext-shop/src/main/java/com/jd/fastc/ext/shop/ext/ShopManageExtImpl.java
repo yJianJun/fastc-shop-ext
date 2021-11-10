@@ -70,6 +70,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
     }
 
     private VenderBasicVO queryVender(String venderId) {
+        log.info("-------商家基本信息传参:{}-----------", JsonUtils.toJSONString(venderId));
         VenderBasicResult venderResult = shopManageRpc.getBasicVenderInfoByVenderId(Long.parseLong(venderId));
         log.info("-------商家基本信息结果:{}-----------", JsonUtils.toJSONString(venderResult));
         if (venderResult.isSuccess()) {
@@ -83,6 +84,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
     }
 
     private BasicShop queryShop(String venderId) {
+        log.info("-------店铺基本信息传参:{}-----------", JsonUtils.toJSONString(venderId));
         BasicShopResult shopResult = shopManageRpc.getBasicShopByVenderId(Long.parseLong(venderId));
         log.info("-------店铺基本信息结果:{}-----------", JsonUtils.toJSONString(shopResult));
         if (shopResult.isSuccess()) {

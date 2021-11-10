@@ -102,8 +102,8 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
                 list.add(skuVO);
             }
         } catch (Exception e) {
-            log.debug("商品搜索中台报错:{}",e);
-            log.error("商品搜索中台报错:{}",e);
+            log.debug("---------------------商品搜索中台报错:{}----------------------------",e);
+            log.error("—————————————————————商品搜索中台报错:{}————————————————————————————",e);
             throw new RestultException(ResultCode.RPC_ERROR, "HTTP调用错误");
         }
 

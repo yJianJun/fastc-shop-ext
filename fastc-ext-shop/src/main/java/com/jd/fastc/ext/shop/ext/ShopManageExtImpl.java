@@ -104,6 +104,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
         purchaseRelationDto.setPageNo(1);
         purchaseRelationDto.setPageSize(1);
 
+        log.info("-------用户商家合作关系传参:{}-----------", JsonUtils.toJSONString(purchaseRelationDto));
         PaginationResult<RelationDetailDto> relationPage = shopManageRpc.queryUserRelationPage(purchaseRelationDto);
         log.info("-------用户商家合作关系结果:{}-----------", JsonUtils.toJSONString(relationPage));
         if (relationPage.isSuccess()) {

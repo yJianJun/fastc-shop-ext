@@ -9,6 +9,7 @@ import com.jd.fastc.ext.shop.enums.ShopStatus;
 import com.jd.fastc.ext.shop.rpc.ShopManageRpc;
 import com.jd.fastc.shop.ext.sdk.manage.ShopManagetExt;
 import com.jd.fastc.shop.ext.sdk.manage.vo.VenderShopVO;
+import com.jd.jsf.gd.util.JsonUtils;
 import com.jd.pop.vender.center.service.shop.dto.BasicShop;
 import com.jd.pop.vender.center.service.shop.dto.BasicShopResult;
 import com.jd.pop.vender.center.service.vbinfo.dto.VenderBasicResult;
@@ -17,6 +18,7 @@ import com.jd.tp.common.masterdata.BU;
 import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.PurchaseRelationDto;
 import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.PurchaseRelationQueryDto;
 import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.RelationDetailDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -31,6 +33,7 @@ import java.util.Objects;
  *
  */
 @Component
+@Slf4j
 public class ShopManageExtImpl implements ShopManagetExt {
 
     @Resource
@@ -68,6 +71,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
 
     private VenderBasicVO queryVender(String venderId) {
         VenderBasicResult venderResult = shopManageRpc.getBasicVenderInfoByVenderId(Long.parseLong(venderId));
+        log.info("-------商家基本信息结果:{}-----------", JsonUtils.toJSONString(venderResult));
         if (venderResult.isSuccess()) {
             VenderBasicVO basicVO = venderResult.getVenderBasicVO();
             if (Objects.nonNull(basicVO)){
@@ -80,6 +84,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
 
     private BasicShop queryShop(String venderId) {
         BasicShopResult shopResult = shopManageRpc.getBasicShopByVenderId(Long.parseLong(venderId));
+        log.info("-------店铺基本信息结果:{}-----------", JsonUtils.toJSONString(shopResult));
         if (shopResult.isSuccess()) {
             BasicShop basicShop = shopResult.getBasicShop();
             if (Objects.nonNull(basicShop)){
@@ -100,6 +105,7 @@ public class ShopManageExtImpl implements ShopManagetExt {
         purchaseRelationDto.setPageSize(1);
 
         PaginationResult<RelationDetailDto> relationPage = shopManageRpc.queryUserRelationPage(purchaseRelationDto);
+        log.info("-------用户商家合作关系结果:{}-----------", JsonUtils.toJSONString(relationPage));
         if (relationPage.isSuccess()) {
             List<RelationDetailDto> dataList = relationPage.getDataList();
             if (!CollectionUtils.isEmpty(dataList)) {

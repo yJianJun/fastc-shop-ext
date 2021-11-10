@@ -61,12 +61,12 @@ public class GoodsQueryRpcImpl implements GoodsQueryRpc {
                 "vender_id,,{venderId}" +
                 "&page={currentPage}" +
                 "&pagesize={pageSize}" +
-                "&expression_key=buid,,406&sort_type=sort_default&charset=utf8&client=1634023454002";
+                "&expression_key=bu_id,,406&sort_type=sort_default&charset=utf8&client=1634023454002";
 
         String queryNotWithCategory="key=vender_id,,{venderId}" +
                 "&page={currentPage}" +
                 "&pagesize={pageSize}" +
-                "&expression_key=buid,,406&sort_type=sort_default&charset=utf8&client=1634023454002";
+                "&expression_key=bu_id,,406&sort_type=sort_default&charset=utf8&client=1634023454002";
 
         String query;
         if (uriVariables.containsKey("category")){

@@ -81,26 +81,31 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
         List<VenderSkuVO> list = null;
         try {
             JSONObject jsonObject = new JSONObject(json);
-            JSONArray paragraph = jsonObject.getJSONArray("Paragraph");
-            JSONObject head = jsonObject.getJSONObject("Head");
-            JSONObject summary = head.getJSONObject("Summary");
-            String total = summary.getString("ResultCount");
+            JSONArray paragraph = jsonObject.optJSONArray("Paragraph");
+            JSONObject head = jsonObject.optJSONObject("Head");
+            JSONObject summary = head.optJSONObject("Summary");
+            String total = summary.optString("ResultCount");
 
             pageVO = new PageVO<>();
             pageVO.setCurrentPage(vo.getCurrentPage());
             pageVO.setPageSize(vo.getPageSize());
             pageVO.setTotal(Long.valueOf(total));
             list = new ArrayList<>();
-            for (int i = 0; i < paragraph.length(); i++) {
-                JSONObject object = paragraph.getJSONObject(i);
-                JSONObject content = object.getJSONObject("Content");
-                VenderSkuVO skuVO = new VenderSkuVO();
-                skuVO.setSkuId(content.getString("wareid"));
-                skuVO.setSkuName(content.getString("warename"));
-                skuVO.setSkuImageUrl(content.getString("imageurl"));
-                skuVO.setSkuStock(content.getInt("wareInStock") == ConstantCode.IN_Stock.getCode());
-                list.add(skuVO);
+            if (Objects.nonNull(paragraph)){
+                for (int i = 0; i < paragraph.length(); i++) {
+                    JSONObject object = paragraph.getJSONObject(i);
+                    JSONObject content = object.optJSONObject("Content");
+                    VenderSkuVO skuVO = new VenderSkuVO();
+                    if (Objects.nonNull(content)){
+                        skuVO.setSkuId(content.optString("wareid"));
+                        skuVO.setSkuName(content.optString("warename"));
+                        skuVO.setSkuImageUrl(content.optString("imageurl"));
+                        skuVO.setSkuStock(content.optInt("wareInStock") == ConstantCode.IN_Stock.getCode());
+                        list.add(skuVO);
+                    }
+                }
             }
+
         } catch (Exception e) {
             log.debug("---------------------商品搜索中台报错:{}----------------------------",e);
             log.error("—————————————————————商品搜索中台报错:{}————————————————————————————",e);

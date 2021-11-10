@@ -17,7 +17,6 @@ import com.jd.fastc.ext.shop.vo.AddressVO;
 import com.jd.fastc.shop.ext.sdk.manage.GoodsQueryExt;
 import com.jd.fastc.shop.ext.sdk.manage.vo.VenderSkuQueryVO;
 import com.jd.fastc.shop.ext.sdk.manage.vo.VenderSkuVO;
-import com.jd.jsf.gd.util.JsonUtils;
 import com.jd.pap.priceinfo.sdk.domain.request.PriceInfoRequest;
 import com.jd.pap.priceinfo.sdk.domain.response.PriceInfoResponse;
 import com.jd.pap.priceinfo.sdk.domain.response.PriceResult;
@@ -32,7 +31,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Component;
-import springfox.documentation.spring.web.json.Json;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -106,6 +104,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
                 }
             }
         } catch (Exception e) {
+            log.info("---------------------商品搜索中台报错--------------------------------",e);
             log.error("---------------------商品搜索中台报错-------------------------------",e);
             throw new RestultException(ResultCode.RPC_ERROR, "HTTP调用错误");
         }

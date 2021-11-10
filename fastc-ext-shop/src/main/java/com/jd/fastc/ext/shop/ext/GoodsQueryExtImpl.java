@@ -17,6 +17,7 @@ import com.jd.fastc.ext.shop.vo.AddressVO;
 import com.jd.fastc.shop.ext.sdk.manage.GoodsQueryExt;
 import com.jd.fastc.shop.ext.sdk.manage.vo.VenderSkuQueryVO;
 import com.jd.fastc.shop.ext.sdk.manage.vo.VenderSkuVO;
+import com.jd.jsf.gd.util.JsonUtils;
 import com.jd.pap.priceinfo.sdk.domain.request.PriceInfoRequest;
 import com.jd.pap.priceinfo.sdk.domain.response.PriceInfoResponse;
 import com.jd.pap.priceinfo.sdk.domain.response.PriceResult;
@@ -139,6 +140,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
 
     private Map<String, PriceResult> getRealPrice(PriceInfoRequest priceInfoRequest) {
         PriceInfoResponse realPriceInfo = goodsQueryRpc.getRealPriceInfo(priceInfoRequest);
+        log.warn("--------------------价格中台返回值:{}------------------", JsonUtils.toJSONString(realPriceInfo));
         if (realPriceInfo.isSuccess()) {
             Map<String, PriceResult> priceMap = realPriceInfo.getPriceMap();
             if (MapUtils.isNotEmpty(priceMap)) {

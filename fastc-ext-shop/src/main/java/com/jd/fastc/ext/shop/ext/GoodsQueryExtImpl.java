@@ -9,6 +9,7 @@ import com.jd.fastbe.framework.model.base.DomainParam;
 import com.jd.fastbe.framework.model.base.DomainResult;
 import com.jd.fastbe.framework.model.base.PageVO;
 import com.jd.fastc.biz.shop.manage.common.RestultException;
+import com.jd.fastc.biz.shop.manage.enums.ConstantCode;
 import com.jd.fastc.biz.shop.manage.enums.ResultCode;
 import com.jd.fastc.ext.shop.handler.AddressConverter;
 import com.jd.fastc.ext.shop.rpc.GoodsQueryRpc;
@@ -97,11 +98,11 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
                 skuVO.setSkuId(content.getString("wareid"));
                 skuVO.setSkuName(content.getString("warename"));
                 skuVO.setSkuImageUrl(content.getString("imageurl"));
-                skuVO.setSkuStock(content.getInt("wareInStock") == 1);
+                skuVO.setSkuStock(content.getInt("wareInStock") == ConstantCode.IN_Stock.getCode());
                 list.add(skuVO);
             }
         } catch (Exception e) {
-            log.error("商品搜索中台报错:{}",e.fillInStackTrace());
+            log.error("商品搜索中台报错:{}",e);
             throw new RestultException(ResultCode.RPC_ERROR, "HTTP调用错误");
         }
 
@@ -118,7 +119,7 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
         priceInfoRequest.setPriceInfos(hashSet);
         priceInfoRequest.setSkuIds(list.stream().map(VenderSkuVO::getSkuId).collect(Collectors.toSet()));
         priceInfoRequest.setSite(BU.YB_B2B.getId());
-        priceInfoRequest.setChannel(UA.PC.ordinal() + 1);
+        priceInfoRequest.setChannel(ConstantCode.PC.getCode());
         //todo: 需要藏经阁备案 配置文件注入
         priceInfoRequest.setSource("jshop-act");
         Map<String, PriceResult> priceMap = getRealPrice(priceInfoRequest);

@@ -95,14 +95,16 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
                 for (int i = 0; i < paragraph.length(); i++) {
                     JSONObject object = paragraph.getJSONObject(i);
                     JSONObject content = object.optJSONObject("Content");
+                    String skuId = object.optString("wareid");
+                    Integer inStock = object.optInt("wareInStock");
                     VenderSkuVO skuVO = new VenderSkuVO();
+                    skuVO.setSkuId(skuId);
+                    skuVO.setSkuStock(inStock.equals(ConstantCode.IN_Stock.getCode()));
                     if (Objects.nonNull(content)){
-                        skuVO.setSkuId(content.optString("wareid"));
                         skuVO.setSkuName(content.optString("warename"));
-                        skuVO.setSkuImageUrl(content.optString("imageurl"));
-                        skuVO.setSkuStock(content.optInt("wareInStock") == ConstantCode.IN_Stock.getCode());
-                        list.add(skuVO);
+                        skuVO.setSkuImageUrl(content.optString("square_pic_path"));
                     }
+                    list.add(skuVO);
                 }
             }
         } catch (Exception e) {

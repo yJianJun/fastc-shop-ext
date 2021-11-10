@@ -26,6 +26,7 @@ import com.yibin.b2b.user.core.query.sdk.dto.userplat.DeliveryInfoDto;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.req.DeliveryQueryDto;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.req.GetDeliveryByIdReq;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -105,13 +106,14 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
                 }
             }
         } catch (Exception e) {
-            log.info("---------------------商品搜索中台报错--------------------------------",e);
             log.error("---------------------商品搜索中台报错-------------------------------",e);
             throw new RestultException(ResultCode.RPC_ERROR, "HTTP调用错误");
         }
 
-        //为每个商品通过价格中台找到价格，并设值
-        setPriceForSku(list);
+        if (CollectionUtils.isNotEmpty(list)){
+            //为每个商品通过价格中台找到价格，并设值
+            setPriceForSku(list);
+        }
         pageVO.setData(list);
         return DomainResult.success(pageVO);
     }

@@ -17,22 +17,22 @@ import com.jd.fastc.ext.shop.vo.AddressVO;
 import com.jd.fastc.shop.ext.sdk.manage.GoodsQueryExt;
 import com.jd.fastc.shop.ext.sdk.manage.vo.VenderSkuQueryVO;
 import com.jd.fastc.shop.ext.sdk.manage.vo.VenderSkuVO;
+import com.jd.jsf.gd.util.JsonUtils;
 import com.jd.pap.priceinfo.sdk.domain.request.PriceInfoRequest;
 import com.jd.pap.priceinfo.sdk.domain.response.PriceInfoResponse;
 import com.jd.pap.priceinfo.sdk.domain.response.PriceResult;
 import com.jd.tp.common.masterdata.BU;
-import com.jd.tp.common.masterdata.UA;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.DeliveryInfoDto;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.req.DeliveryQueryDto;
 import com.yibin.b2b.user.core.query.sdk.dto.userplat.req.GetDeliveryByIdReq;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Component;
+import springfox.documentation.spring.web.json.Json;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -105,10 +105,8 @@ public class GoodsQueryExtImpl implements GoodsQueryExt {
                     }
                 }
             }
-
         } catch (Exception e) {
-            log.debug("---------------------商品搜索中台报错:{}----------------------------",e);
-            log.error("—————————————————————商品搜索中台报错:{}————————————————————————————",e);
+            log.error("---------------------商品搜索中台报错-------------------------------",e);
             throw new RestultException(ResultCode.RPC_ERROR, "HTTP调用错误");
         }
 

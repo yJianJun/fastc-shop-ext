@@ -1,11 +1,15 @@
 package com.jd.fastc.ext.shop.rpc;
 
+import com.jd.b2b.user.sdk.domain.B2bUserResult;
 import com.jd.b2b.user.sdk.domain.PaginationResult;
 import com.jd.pop.vender.center.service.shop.dto.BasicShopResult;
 import com.jd.pop.vender.center.service.vbinfo.dto.VenderBasicResult;
 import com.yibin.b2b.user.core.base.sdk.domain.ClientInfoReq;
+import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.GetPurchaseRelReq;
 import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.PurchaseRelationQueryDto;
 import com.yibin.b2b.user.core.query.sdk.dto.purchaserelation.RelationDetailDto;
+
+import java.util.List;
 
 /***
  * @Auther: yejianjun
@@ -19,5 +23,5 @@ public interface ShopManageRpc {
 
     VenderBasicResult getBasicVenderInfoByVenderId(Long var1);
 
-    PaginationResult<RelationDetailDto> queryUserRelationPage(PurchaseRelationQueryDto var1);
+    B2bUserResult<List<RelationDetailDto>> getPurchaseRelByPurCode(GetPurchaseRelReq var1);
 }
